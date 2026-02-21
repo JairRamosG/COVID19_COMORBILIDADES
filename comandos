@@ -1,0 +1,7 @@
+Comando para descargar del Drive el dataset original de 2.9 GB
+
+sincronización del archivo de datos:
+rclone backend copyid gdrive: 1orIMFcccFFqQtkSEx0VKh9HiOsEdpUnn data/raw/ --progress
+
+alias descargar-covid='rclone backend copyid gdrive: 1orIMFcccFFqQtkSEx0VKh9HiOsEdpUnn data/raw/ --progresss'
+# descargar-covid
