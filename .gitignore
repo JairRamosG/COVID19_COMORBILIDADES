@@ -1,0 +1,10 @@
+data/raw/
+*.csv
+*.zip
+*.gz
+*.tar
+*.rar
+*.7z
+
+!data/processed/
+!*.parquet
