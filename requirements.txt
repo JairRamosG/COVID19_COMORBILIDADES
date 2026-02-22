@@ -1,5 +1,4 @@
-pyspark
-rclone
-subprocess
-sys
-pathlib
+pyspark==4.0.1
+streamlit==1.54.0
+numpy==2.3.5
+matplotlib==3.10.7
