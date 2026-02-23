@@ -19,24 +19,44 @@ Este dashboard permite explorar los datos de pacientes COVID-19 en México anali
 """)
 st.markdown("---")
 
-@st.cache_resource
+@st.cache_data(ttl = "1d", persist = "disk")
 def cargar_datos():
     '''
     Carga el dataFrame de Spark de un parquet
     '''
     BASE_DIR  = Path(__file__).resolve().parent.parent
-    DATA_PARQUET_PATH = Path(os.getenv('DATA_PARQUET', BASE_DIR / 'data' / 'parquet'))
+    DATA_PARQUET = Path(os.getenv('DATA_PARQUET', BASE_DIR / 'data' / 'parquet'))
 
-    if not DATA_PARQUET_PATH.exists():
-        st.error(f'No se encuentra el archivo en la ruta: {DATA_PARQUET_PATH}')
+    if not DATA_PARQUET.exists():
+        st.error(f'No se encuentra el archivo en la ruta: {DATA_PARQUET}')
         return None
+    
+    columnas_necesarias = ['EDAD', 'CATEGORIA_EDAD', 'SEXO', 'SOBREVIVIO', 
+                          'N_COMORBILIDADES'] + comorbilidades
 
-    df = pd.read_parquet(str(DATA_PARQUET_PATH))
+    df = pd.read_parquet(str(DATA_PARQUET), engine='pyarrow', columns=columnas_necesarias)
+
+    for col in df.select_dtypes(include=['float64']).columns:
+        df[col] = pd.to_numeric(df[col], downcast='float')
+    for col in df.select_dtypes(include=['int64']).columns:
+        df[col] = pd.to_numeric(df[col], downcast='integer')
     
     return df
 
-with st.spinner('Cargando datos'):
-    df = cargar_datos()
+comorbilidades = ['DIABETES', 'HIPERTENSION', 'OBESIDAD', 'ASMA', 'EPOC', 'INMUSUPR', 'RENAL_CRONICA', 'TABAQUISMO']
+
+progress_bar = st.progress(0)
+status_text = st.empty()
+
+status_text.text('Cargando datos... Puede tomar algunos segundos')
+df = cargar_datos()
+progress_bar.progress(50)
+
+status_text.text('Procesando datos')
+progress_bar.progress(100)
+
+status_text.empty()
+progress_bar.empty()
 
 if df is None:
     st.stop()
@@ -65,7 +85,6 @@ filtro_sexo = st.sidebar.radio('Sexo', sexo_opciones)
 st.sidebar.markdown('---')
 st.sidebar.subheader('Comorbilidades')
 
-comorbilidades = ['DIABETES', 'HIPERTENSION', 'OBESIDAD', 'ASMA', 'EPOC', 'INMUSUPR', 'RENAL_CRONICA', 'TABAQUISMO']
 filtro_comorbilidad = st.sidebar.radio('Tipo de filtro',
                                        ['Con alguna', 'Todas', 'Sin ninguna'],
                                        help = "Con alguna: al menos una\n" \
