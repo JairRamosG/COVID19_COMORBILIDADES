@@ -113,18 +113,21 @@ with col2:
               f"{df_filtrado['EDAD'].mean():.1f} años")
 
 with col3:
+    con_corm = df[(df['N_COMORBILIDADES'] >= 1)].shape[0]
+    porcentaje_con_corm = (con_corm / len(df)) * 100
+    st.metric('Padecen de alguna cormobilidad',
+              f"{porcentaje_con_corm:.1f} %")
+
+
+with col4:
     supervivientes = df_filtrado[df_filtrado['SOBREVIVIO'] == 1].shape[0]
     st.metric('Supervivencia',
               f"{supervivientes:,}")    
     
-with col4:
+with col5:
     fallecimientos = df_filtrado[df_filtrado['SOBREVIVIO'] == 0].shape[0]
     st.metric('Fallecimientos',
               f"{fallecimientos:,}")    
     
-with col5:
-    comorb_prom = df['N_COMORBILIDADES'].mean()
-    st.metric('Comorbilidades promedio',
-              f"{comorb_prom:.1f}")
 
 st.markdown('---')
