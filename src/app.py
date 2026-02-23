@@ -52,3 +52,7 @@ rango_edad = st.sidebar.slider('Rango de edades',
                                min_value = edad_min,
                                max_value = edad_max,
                                value = (edad_min, edad_max))
+
+# Categoria de edad
+categorias_edad = ['TODAS'] + sorted(df['CATEGORIAS_EDAD'].unique().tolist())
+categorias_edad_sel = st.sidebar.selectbox('Categorias por edad', categorias_edad)
