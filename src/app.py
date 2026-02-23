@@ -25,7 +25,7 @@ def cargar_datos():
     Carga el dataFrame de Spark de un parquet
     '''
     BASE_DIR  = Path(__file__).resolve().parent.parent
-    DATA_PARQUET_PATH = Path(os.getenv('DATA_PARQUET', BASE_DIR / 'data' / 'parquet' / 'df_final.parquet'))
+    DATA_PARQUET_PATH = Path(os.getenv('DATA_PARQUET', BASE_DIR / 'data' / 'parquet'))
 
     if not DATA_PARQUET_PATH.exists():
         st.error(f'No se encuentra el archivo en la ruta: {DATA_PARQUET_PATH}')
