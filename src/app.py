@@ -45,6 +45,7 @@ def cargar_datos():
 
 comorbilidades = ['DIABETES', 'HIPERTENSION', 'OBESIDAD', 'ASMA', 'EPOC', 'INMUSUPR', 'RENAL_CRONICA', 'TABAQUISMO']
 
+############################### CARGA DE DATOS #############################
 progress_bar = st.progress(0)
 status_text = st.empty()
 
