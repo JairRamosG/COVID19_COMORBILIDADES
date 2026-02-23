@@ -101,7 +101,7 @@ df_filtrado = df.copy()
 
 ############################### MÉTRICAS PRINCIPALES #############################
 st.header('Resumen General')
-col1, col2, col3, col4, col5 = st.columns(5)
+col1, col2, col3, col4 = st.columns(4)
 
 with col1:
     st.metric("Todal de pacientes",
@@ -120,14 +120,8 @@ with col3:
 
 
 with col4:
-    supervivientes = df_filtrado[df_filtrado['SOBREVIVIO'] == 1].shape[0]
-    st.metric('Supervivencia',
-              f"{supervivientes:,}")    
-    
-with col5:
-    fallecimientos = df_filtrado[df_filtrado['SOBREVIVIO'] == 0].shape[0]
+    no_supervivientes = df_filtrado[df_filtrado['SOBREVIVIO'] == 0].shape[0]
     st.metric('Fallecimientos',
-              f"{fallecimientos:,}")    
-    
+              f"{no_supervivientes:,}")    
 
 st.markdown('---')
