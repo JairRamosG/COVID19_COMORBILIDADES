@@ -103,6 +103,10 @@ df = df[
     (df['EDAD'] <= filtro_edad[1])
     ]
 
+# Filtro por categoria de edad
+if filtro_edad_categoria != 'TODAS':
+    df = df[df['CATEGORIA_EDAD'] == filtro_edad_categoria]
+
 # Filtro por sexo
 if filtro_sexo != 'Todos':
     df = df[df['SEXO'] == filtro_sexo]
@@ -121,8 +125,12 @@ with col2:
               f"{df['EDAD'].mean():.1f} años")
 
 with col3:
-    con_corm = df[(df['N_COMORBILIDADES'] >= 1)].shape[0]
-    porcentaje_con_corm = (con_corm / len(df)) * 100
+    total = len(df)
+    if total > 0:
+        con_corm = df[(df['N_COMORBILIDADES'] == 1)].shape[0]
+        porcentaje_con_corm = (con_corm / len(df)) * 100
+    else:
+        porcentaje_con_corm = 0
     st.metric('Padecen de alguna cormobilidad',
               f"{porcentaje_con_corm:.1f} %")
 
