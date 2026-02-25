@@ -99,6 +99,14 @@ comorb_sel = st.sidebar.multiselect('Selecciona comorbilidades',
 ############################### APLIICAR FILTROS #############################
 df_filtrado = df.copy()
 
+# Filtro por edad
+df_filtrado = df_filtrado[(df_filtrado['EDAD'] >= filtro_edad_categoria[0] &
+                           df_filtrado['EDAD'] <= filtro_edad_categoria[1])]
+
+# Filtro por sexo
+if filtro_sexo != 'Todos':
+    df_filtrado = df_filtrado[df_filtrado['SEXO'] == filtro_sexo]
+
 ############################### MÉTRICAS PRINCIPALES #############################
 st.header('Resumen General')
 col1, col2, col3, col4 = st.columns(4)
@@ -125,3 +133,20 @@ with col4:
               f"{no_supervivientes:,}")    
 
 st.markdown('---')
+
+############################### GRÁFICOS #############################
+st.subheader('Distribución por edades')
+
+col1, col2 = st.columns(2)
+
+with col1:
+    fig_hist = px.histogram(
+        df_filtrado,
+        x = 'EDAD',
+        nbins = 50,
+        color = 'SOBREVIVIO',
+        title = 'Distribución por edades',
+        color_discrete_map = {'Sobrevivio ' :  '#2ecc71', 'Falleció' : '#e74c3c'},
+        barmode = 'overlay')
+    fig_hist.update_layout(height = 400)
+    st.plotly_chart(fig_hist, use_container_width = True)
