@@ -19,7 +19,7 @@ Este dashboard permite explorar los datos de pacientes COVID-19 en México anali
 """)
 st.markdown("---")
 
-@st.cache_data(ttl = "1d", persist = "disk")
+@st.cache_data()
 def cargar_datos():
     '''
     Carga el dataFrame de Spark de un parquet
