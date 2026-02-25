@@ -104,8 +104,8 @@ df = df[
     ]
 
 # Filtro por categoria de edad
-if filtro_edad_categoria != 'TODAS':
-    df = df[df['CATEGORIA_EDAD'] == filtro_edad_categoria]
+#if filtro_edad_categoria != 'TODAS':
+#    df = df[df['CATEGORIA_EDAD'] == filtro_edad_categoria]
 
 # Filtro por sexo
 if filtro_sexo != 'Todos':
@@ -133,7 +133,6 @@ with col3:
         porcentaje_con_corm = 0
     st.metric('Padecen de alguna cormobilidad',
               f"{porcentaje_con_corm:.1f} %")
-
 
 with col4:
     no_supervivientes = df[df['SOBREVIVIO'] == 0].shape[0]
