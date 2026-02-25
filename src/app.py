@@ -148,8 +148,8 @@ with col1:
         nbins = 50,
         color = 'SOBREVIVIO',
         title = 'Distribución por edades',
-        color_discrete_map = {'Sobrevivio ' :  "#00ff6a",
-                              'Falleció' : '#e74c3c'},
+        color_discrete_map = {1 :  "#00ff6a",
+                              0 : '#e74c3c'},
         barmode = 'overlay')
     fig_hist.update_layout(height = 400)
     st.plotly_chart(fig_hist)
@@ -159,10 +159,9 @@ with col2:
         df_filtrado,
         x = 'SOBREVIVIO',
         y = 'EDAD',
-        title = 'Edad por resultado'
-        color = 'RESULTADO',
-        color_discrete_map = {'Sobrevivio ' :  "#00ff6a",
-                              'Falleció' : '#e74c3c'},
-        barmode = 'overlay')
+        title = 'Edad por resultado',
+        color = 'SOBREVIVIO',
+        color_discrete_map = {1:  "#00ff6a",
+                              0 : '#e74c3c'})
     fig_box.update_layout(height = 400)
     st.plotly_chart(fig_box)
