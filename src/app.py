@@ -100,8 +100,10 @@ comorb_sel = st.sidebar.multiselect('Selecciona comorbilidades',
 df_filtrado = df.copy()
 
 # Filtro por edad
-df_filtrado = df_filtrado[(df_filtrado['EDAD'] >= filtro_edad_categoria[0] &
-                           df_filtrado['EDAD'] <= filtro_edad_categoria[1])]
+df_filtrado = df_filtrado[
+    (df_filtrado['EDAD'] >= filtro_edad[0]) &
+    (df_filtrado['EDAD'] <= filtro_edad[1])
+    ]
 
 # Filtro por sexo
 if filtro_sexo != 'Todos':
@@ -146,7 +148,21 @@ with col1:
         nbins = 50,
         color = 'SOBREVIVIO',
         title = 'Distribución por edades',
-        color_discrete_map = {'Sobrevivio ' :  '#2ecc71', 'Falleció' : '#e74c3c'},
+        color_discrete_map = {'Sobrevivio ' :  "#00ff6a",
+                              'Falleció' : '#e74c3c'},
         barmode = 'overlay')
     fig_hist.update_layout(height = 400)
-    st.plotly_chart(fig_hist, use_container_width = True)
+    st.plotly_chart(fig_hist)
+
+with col2:
+    fig_box = px.box(
+        df_filtrado,
+        x = 'SOBREVIVIO',
+        y = 'EDAD',
+        title = 'Edad por resultado'
+        color = 'RESULTADO',
+        color_discrete_map = {'Sobrevivio ' :  "#00ff6a",
+                              'Falleció' : '#e74c3c'},
+        barmode = 'overlay')
+    fig_box.update_layout(height = 400)
+    st.plotly_chart(fig_box)
