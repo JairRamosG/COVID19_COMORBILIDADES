@@ -97,17 +97,15 @@ comorb_sel = st.sidebar.multiselect('Selecciona comorbilidades',
 
 
 ############################### APLIICAR FILTROS #############################
-df_filtrado = df.copy()
-
 # Filtro por edad
-df_filtrado = df_filtrado[
-    (df_filtrado['EDAD'] >= filtro_edad[0]) &
-    (df_filtrado['EDAD'] <= filtro_edad[1])
+df = df[
+    (df['EDAD'] >= filtro_edad[0]) &
+    (df['EDAD'] <= filtro_edad[1])
     ]
 
 # Filtro por sexo
 if filtro_sexo != 'Todos':
-    df_filtrado = df_filtrado[df_filtrado['SEXO'] == filtro_sexo]
+    df = df[df['SEXO'] == filtro_sexo]
 
 ############################### MÉTRICAS PRINCIPALES #############################
 st.header('Resumen General')
@@ -115,12 +113,12 @@ col1, col2, col3, col4 = st.columns(4)
 
 with col1:
     st.metric("Todal de pacientes",
-              f"{len(df_filtrado):,}",
+              f"{len(df):,}",
               delta = 'Registrados')
 
 with col2:
     st.metric("Edad media",
-              f"{df_filtrado['EDAD'].mean():.1f} años")
+              f"{df['EDAD'].mean():.1f} años")
 
 with col3:
     con_corm = df[(df['N_COMORBILIDADES'] >= 1)].shape[0]
@@ -130,7 +128,7 @@ with col3:
 
 
 with col4:
-    no_supervivientes = df_filtrado[df_filtrado['SOBREVIVIO'] == 0].shape[0]
+    no_supervivientes = df[df['SOBREVIVIO'] == 0].shape[0]
     st.metric('Fallecimientos',
               f"{no_supervivientes:,}")    
 
@@ -143,7 +141,7 @@ col1, col2 = st.columns(2)
 
 with col1:
     fig_hist = px.histogram(
-        df_filtrado,
+        df,
         x = 'EDAD',
         nbins = 50,
         color = 'SOBREVIVIO',
@@ -156,7 +154,7 @@ with col1:
 
 with col2:
     fig_box = px.box(
-        df_filtrado,
+        df,
         x = 'SOBREVIVIO',
         y = 'EDAD',
         title = 'Edad por resultado',
